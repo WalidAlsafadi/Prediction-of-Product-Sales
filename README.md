@@ -1,40 +1,69 @@
-# Prediction of Product Sales
+# Product Sales Prediction
 
 ## Project Overview
 
-This project explores sales data for products sold across different outlet types. The goal is to identify patterns in product and store features that may help explain or predict `Item_Outlet_Sales`.
+This project uses product and outlet data to predict product sales. The goal is to help a retail business understand which product and store features are most related to sales performance.
 
-## Dataset
+The project follows the CRISP-DM process, including data cleaning, exploratory analysis, preprocessing, modeling, evaluation, and deployment preparation.
 
-The dataset includes information about product characteristics, outlet characteristics, and the target variable `Item_Outlet_Sales`.
+## Business Problem
 
-## Data Cleaning Summary
+Retail businesses need reliable sales predictions to support inventory planning, product placement, and business decision-making.
 
-- Removed duplicate rows
-- Filled missing values in `Item_Weight` with `0`
-- Filled missing values in `Outlet_Size` with `"Missing"`
-- Standardized inconsistent categories in `Item_Fat_Content`
+## Data Insights
 
-## Exploratory Visuals
+### 1. Product price is strongly related to sales
 
-### 1) Correlation Heatmap
+Products with higher maximum retail price generally show higher outlet sales. This suggests that `Item_MRP` is an important predictor of sales performance.
 
-![Correlation Heatmap](images/correlation_heatmap.png)
+![Item MRP vs Sales](images/item_mrp_vs_sales.png)
 
-**Interpretation:** `Item_MRP` has the strongest positive relationship with `Item_Outlet_Sales`, which suggests that higher-priced items tend to generate higher sales.
+### 2. Outlet type affects sales performance
 
-### 2) Item Outlet Sales by Outlet Type
+Sales vary across outlet types. Supermarket outlet types generally perform better than grocery stores, which suggests that store format has an important relationship with sales.
 
-![Sales by Outlet Type Boxplot](images/sales_by_outlet_type_boxplot.png)
+![Sales by Outlet Type](images/sales_by_outlet_type.png)
 
-**Interpretation:** Supermarket Type3 outlets show the highest sales overall, while Grocery Stores tend to have much lower sales distributions.
+## Model Summary
 
-## Key Findings
+Several regression models were tested to predict `Item_Outlet_Sales`.
 
-- `Item_MRP` is the numerical feature most strongly associated with sales.
-- Outlet type appears to play an important role in sales performance.
-- Some numerical features contain outliers, especially `Item_Outlet_Sales` and `Item_Visibility`.
+| Model                 | Test R² | Test RMSE | Test MAE |
+| --------------------- | ------: | --------: | -------: |
+| Tuned Random Forest   |   0.590 |  1063.183 |  738.482 |
+| Linear Regression     |   0.567 |  1092.863 |  804.120 |
+| Default Random Forest |   0.558 |  1103.878 |  767.302 |
 
-## Author
+![Model Comparison](images/model_comparison_test_r2.png)
 
-Walid Alsafadi
+The best model was the **Tuned Random Forest**.
+
+## Final Recommendation
+
+I recommend using the **Tuned Random Forest** model because it had the best overall test performance.
+
+Final test performance:
+
+- Test R²: **0.590**
+- Test RMSE: **1063.183**
+- Test MAE: **738.482**
+
+R² shows how much variation in sales the model explains. RMSE and MAE are also important because they are measured in the same unit as the target sales value.
+
+## Repository Contents
+
+- `README.md`
+- `Product_Sales_Prediction.ipynb`
+- `sales_predictions_2023.csv`
+- `images/item_mrp_vs_sales.png`
+- `images/sales_by_outlet_type.png`
+- `images/model_comparison_test_r2.png`
+
+## Tools Used
+
+- Python
+- Pandas
+- Matplotlib
+- Seaborn
+- Scikit-learn
+- Jupyter Notebook
